@@ -1,16 +1,14 @@
 ﻿from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel
-import importlib
-
-# Dynamic check for SAP Client class name compatibility
-sap_module = importlib.import_module("src.sap.client")
-SAPClientClass = getattr(sap_module, "SAPClient", getattr(sap_module, "SAPODataClient", None))
-
+try:
+    from src.sap.client import SAPODataClient as SAPClient
+except ImportError:
+    from src.sap.client import SAPClient
 from src.agents.governance import SwarmGovernanceGuardrails, CircuitBreakerException
 from src.engine.telemetry import SwarmTelemetry
 
 app = FastAPI(title="KVRAT.ai - Autonomous Enterprise API")
-sap_client = SAPClientClass() if SAPClientClass else None
+sap_client = SAPClient()
 governance = SwarmGovernanceGuardrails()
 telemetry = SwarmTelemetry()
 
