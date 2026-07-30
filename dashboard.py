@@ -10,7 +10,6 @@ st.caption("منصة إدارة التغليف والعمليات الذكية �
 
 st.divider()
 
-# شريط الحالة والـ Health Check
 col_status, col_breaker = st.columns(2)
 
 try:
@@ -25,8 +24,7 @@ except Exception:
 
 st.divider()
 
-# تبويبات اللوحة
-tab1, tab2, tab3 = st.tabs(["📦 تحسين التغليف", "✋ الموافقات البشرية", "📊 القياسات والتحليلات"])
+tab1, tab2, tab3, tab4 = st.tabs(["📦 تحسين التغليف", "✋ الموافقات البشرية", "📊 القياسات والتحليلات", "🧠 الذاكرة الموحدة"])
 
 with tab1:
     st.subheader("إرسال طلب تحسين تغليف جديد")
@@ -75,3 +73,13 @@ with tab3:
             st.json(metrics)
         except Exception as e:
             st.error(f"خطأ في جلب المقاييس: {e}")
+
+with tab4:
+    st.subheader("استرجاع سجل الذاكرة الموحدة للعملاء والمنتجات")
+    search_item_id = st.text_input("بحث برقم المنتج", value="ITEM-202")
+    if st.button("جلب السجل من الذاكرة"):
+        try:
+            history_res = requests.get(f"{API_URL}/api/v1/history/{search_item_id}").json()
+            st.json(history_res)
+        except Exception as e:
+            st.error(f"خطأ في الاتصال بالذاكرة: {e}")

@@ -11,3 +11,9 @@ __pycache__/
 .agents/
 # Streamlit agent skills
 .agents/
+
+# Runtime data & Cache
+data/
+*.json
+__pycache__/
+*.pyc
