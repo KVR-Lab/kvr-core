@@ -21,7 +21,6 @@ def test_packaging_optimization_success():
     assert response.json()["status"] == "SUCCESS"
 
 def test_human_approval_trigger():
-    # Weight high enough to cause cost > threshold ()
     payload = {
         "item_id": "HEAVY-999",
         "weight_kg": 100.0,
@@ -31,6 +30,15 @@ def test_human_approval_trigger():
     response = client.post("/api/v1/optimize-packaging", json=payload)
     assert response.status_code == 200
     assert response.json()["status"] == "PENDING_APPROVAL"
+
+def test_manual_approval_endpoint():
+    payload = {
+        "transaction_id": "TX-999",
+        "approved": True
+    }
+    response = client.post("/api/v1/approve-transaction", json=payload)
+    assert response.status_code == 200
+    assert response.json()["status"] == "APPROVED"
 
 def test_telemetry_metrics():
     response = client.get("/api/v1/telemetry/metrics")

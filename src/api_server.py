@@ -2,7 +2,6 @@
 from pydantic import BaseModel
 import importlib
 
-# Dynamic check for SAP Client class name compatibility
 sap_module = importlib.import_module("src.sap.client")
 SAPClientClass = getattr(sap_module, "SAPClient", getattr(sap_module, "SAPODataClient", None))
 
@@ -11,7 +10,6 @@ from src.engine.telemetry import SwarmTelemetry
 
 app = FastAPI(title="KVRAT.ai - Autonomous Enterprise API")
 
-# Initialize SAP Client with a default mock URL if required by __init__
 if SAPClientClass:
     try:
         sap_client = SAPClientClass()
@@ -70,6 +68,20 @@ def optimize_packaging(req: PackagingRequest, background_tasks: BackgroundTasks)
     except CircuitBreakerException as e:
         background_tasks.add_task(telemetry.log_event, "circuit_breaker_opened", {"error": str(e)})
         raise HTTPException(status_code=503, detail=str(e))
+
+@app.post("/api/v1/approve-transaction")
+def approve_transaction(req: ManualApprovalRequest, background_tasks: BackgroundTasks):
+    status_str = "APPROVED" if req.approved else "REJECTED"
+    background_tasks.add_task(
+        telemetry.log_event,
+        "human_decision",
+        {"transaction_id": req.transaction_id, "status": status_str}
+    )
+    return {
+        "status": status_str,
+        "transaction_id": req.transaction_id,
+        "message": f"Transaction has been manually {status_str.lower()}."
+    }
 
 @app.get("/api/v1/telemetry/metrics")
 def get_metrics():
