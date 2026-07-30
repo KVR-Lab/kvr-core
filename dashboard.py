@@ -5,7 +5,6 @@ API_URL = "http://localhost:8000"
 
 st.set_page_config(page_title="KVRAT.ai - مركز التحكم والعمليات", page_icon="🛸", layout="wide")
 
-# منع الترجمة الآلية المشوهة من المتصفح
 st.markdown('<meta name="google" content="notranslate">', unsafe_allow_html=True)
 
 st.title("🛸 KVRAT.ai — مركز التحكم والعمليات الذاتية")
@@ -47,21 +46,24 @@ with tab1:
             try:
                 res = requests.post(f"{API_URL}/api/v1/optimize-packaging", json=payload).json()
                 
-                if "pricing" in res:
-                    p = res["pricing"]
-                    st.markdown("### 💰 تفاصيل التسعير الديناميكي")
-                    p_col1, p_col2, p_col3 = st.columns(3)
-                    p_col1.metric("التكلفة الأساسية", f"")
-                    p_col2.metric("رسوم الحماية", f"")
-                    p_col3.metric("الإجمالي النهائي", f"")
-                    st.divider()
-
-                if res.get("status") == "SUCCESS":
-                    st.success(f"✅ تم الاعتماد بنجاح! المواصفة: {res.get('specification')}")
-                elif res.get("status") == "PENDING_APPROVAL":
-                    st.warning(f"⚠️ الطلب يتطلب موافقة بشرية: {res.get('message')}")
+                if res.get("status") == "REJECTED_BY_GOVERNANCE":
+                    st.error(f"🛑 تم الرفض بواسطة نظام الحوكمة: {res.get('reason')}")
                 else:
-                    st.json(res)
+                    if "pricing" in res:
+                        p = res["pricing"]
+                        st.markdown("### 💰 تفاصيل التسعير الديناميكي")
+                        p_col1, p_col2, p_col3 = st.columns(3)
+                        p_col1.metric("التكلفة الأساسية", f"")
+                        p_col2.metric("رسوم الحماية", f"")
+                        p_col3.metric("الإجمالي النهائي", f"")
+                        st.divider()
+
+                    if res.get("status") == "SUCCESS":
+                        st.success(f"✅ تم الاعتماد بنجاح! المواصفة: {res.get('specification')}")
+                    elif res.get("status") == "PENDING_APPROVAL":
+                        st.warning(f"⚠️ الطلب يتطلب موافقة بشرية: {res.get('message')}")
+                    else:
+                        st.json(res)
             except Exception as e:
                 st.error(f"خطأ في الاتصال: {e}")
 
