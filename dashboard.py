@@ -3,7 +3,10 @@ import requests
 
 API_URL = "http://localhost:8000"
 
-st.set_page_config(page_title="KVRAT.ai - مركز العمليات الميدانية", page_icon="🛸", layout="wide")
+st.set_page_config(page_title="KVRAT.ai - مركز التحكم والعمليات", page_icon="🛸", layout="wide")
+
+# منع الترجمة الآلية المشوهة من المتصفح
+st.markdown('<meta name="google" content="notranslate">', unsafe_allow_html=True)
 
 st.title("🛸 KVRAT.ai — مركز التحكم والعمليات الذاتية")
 st.caption("منصة إدارة التغليف والتسعير الذكي بالذكاء الاصطناعي")
@@ -30,8 +33,8 @@ with tab1:
     st.subheader("إرسال طلب تحسين تغليف وتسعير جديد")
     with st.form("optimize_form"):
         item_id = st.text_input("معرف المنتج (Item ID)", value="ITEM-202")
-        weight_kg = st.number_input("الوزن (كجم)", min_value=0.1, value=12.0)
-        fragility_g = st.number_input("معامل الهشاشة (G-Force)", min_value=1.0, value=30.0)
+        weight_kg = st.number_input("الوزن (كجم)", min_value=0.1, value=15.0, step=0.5)
+        fragility_g = st.number_input("معامل الهشاشة (G-Force)", min_value=1.0, value=25.0, step=1.0)
         
         submitted = st.form_submit_button("تشغيل الخوارزمية والتسعير")
         if submitted:
@@ -50,7 +53,7 @@ with tab1:
                     p_col1, p_col2, p_col3 = st.columns(3)
                     p_col1.metric("التكلفة الأساسية", f"")
                     p_col2.metric("رسوم الحماية", f"")
-                    p_col3.metric("الإجمالي", f"")
+                    p_col3.metric("الإجمالي النهائي", f"")
                     st.divider()
 
                 if res.get("status") == "SUCCESS":
