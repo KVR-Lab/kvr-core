@@ -48,9 +48,9 @@ with tab1:
                     p = res["pricing"]
                     st.markdown("### 💰 تفاصيل التسعير الديناميكي")
                     p_col1, p_col2, p_col3 = st.columns(3)
-                    p_col1.metric("التكلفة الأساسية", f"\")
-                    p_col2.metric("رسوم الحماية", f"\")
-                    p_col3.metric("الإجمالي", f"\")
+                    p_col1.metric("التكلفة الأساسية", f"")
+                    p_col2.metric("رسوم الحماية", f"")
+                    p_col3.metric("الإجمالي", f"")
                     st.divider()
 
                 if res.get("status") == "SUCCESS":
