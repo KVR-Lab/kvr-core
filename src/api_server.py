@@ -1,13 +1,15 @@
 ﻿from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from typing import List
 from src.memory import UnifiedDataFabricMemory
 from src.agents.pricing import DynamicPricingEngine
+from src.agents.governance import GovernanceAgent
 
 app = FastAPI(title="KVRAT.ai Core API", version="1.0.0")
 
 memory = UnifiedDataFabricMemory()
 pricing_engine = DynamicPricingEngine()
+governance_agent = GovernanceAgent()
 
 class OptimizationRequest(BaseModel):
     item_id: str
@@ -25,8 +27,15 @@ def health_check():
 
 @app.post("/api/v1/optimize-packaging")
 def optimize_packaging(req: OptimizationRequest):
+    # 1. تطبيق حوكمة الأمان أولاً
+    gov_check = governance_agent.validate_request(req.weight_kg, req.fragility_g, req.dimensions_cm)
+    if not gov_check["valid"]:
+        return {"status": "REJECTED_BY_GOVERNANCE", "reason": gov_check["reason"]}
+
+    # 2. حساب التسعير
     pricing = pricing_engine.calculate_cost(req.weight_kg, req.fragility_g)
     
+    # 3. التحقق من الحاجة لموافقة بشرية
     if req.fragility_g > 50.0:
         decision = {
             "item_id": req.item_id,
@@ -59,4 +68,4 @@ def approve_transaction(approval: TransactionApproval):
 
 @app.get("/api/v1/telemetry/metrics")
 def get_metrics():
-    return {"total_requests": 142, "latency_ms": 18.4, "active_agents": 5}
+    return {"total_requests": 142, "latency_ms": 18.4, "active_agents": 6}
