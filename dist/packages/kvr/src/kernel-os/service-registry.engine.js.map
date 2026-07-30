@@ -1,0 +1,1 @@
+{"version":3,"file":"service-registry.engine.js","sourceRoot":"","sources":["../../../../../packages/kvr/src/kernel-os/service-registry.engine.ts"],"names":[],"mappings":";;;AAAA,MAAa,qBAAqB;IAEjC,QAAQ,CAAC,OAAW;QAEnB,OAAO;YACN,UAAU,EAAC,IAAI;YACf,IAAI,EAAC,OAAO;SACZ,CAAC;IAEH,CAAC;CAED;AAXD,sDAWC"}

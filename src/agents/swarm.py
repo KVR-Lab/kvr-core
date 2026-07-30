@@ -2,6 +2,7 @@
 from src.engine.packaging import PackagingDecisionEngine
 from src.agents.pricing import DynamicPricingAgent
 from src.agents.governance import AIgovernanceGuardrails
+from src.engine.data_fabric import UnifiedDataFabric
 
 class AgenticSwarmOrchestrator:
     def __init__(self):
@@ -9,6 +10,7 @@ class AgenticSwarmOrchestrator:
         self.packaging_engine = PackagingDecisionEngine()
         self.pricing_agent = DynamicPricingAgent()
         self.governance = AIgovernanceGuardrails()
+        self.data_fabric = UnifiedDataFabric()
 
     def run_swarm_pipeline(self, order_id: str, weight_kg: float, fragility_limit_g: float):
         print(f"\n==========================================")
@@ -29,7 +31,10 @@ class AgenticSwarmOrchestrator:
             print("[Swarm Aborted]: Governance check failed.")
             return {"status": "REJECTED"}
 
-        # 4. SAP OData Execution
+        # 4. Unified Data Fabric Storage
+        self.data_fabric.store_decision(order_id, specs, pricing)
+
+        # 5. SAP OData Execution
         payload = {
             "po_id": order_id,
             "material_spec": specs["recommended_flute"],
@@ -45,4 +50,4 @@ class AgenticSwarmOrchestrator:
 
 if __name__ == "__main__":
     swarm = AgenticSwarmOrchestrator()
-    swarm.run_swarm_pipeline(order_id="PO-SWARM-1002", weight_kg=11.2, fragility_limit_g=25.0)
+    swarm.run_swarm_pipeline(order_id="PO-SWARM-1003", weight_kg=8.5, fragility_limit_g=20.0)

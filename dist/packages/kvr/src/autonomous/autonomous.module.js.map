@@ -1,0 +1,1 @@
+{"version":3,"file":"autonomous.module.js","sourceRoot":"","sources":["../../../../../packages/kvr/src/autonomous/autonomous.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,6DAAyD;AAUlD,IAAM,gBAAgB,GAAtB,MAAM,gBAAgB;CAAG,CAAA;AAAnB,4CAAgB;2BAAhB,gBAAgB;IAR5B,IAAA,eAAM,EAAC;QAEJ,SAAS,EAAC,CAAC,sCAAiB,CAAC;QAE7B,OAAO,EAAC,CAAC,sCAAiB,CAAC;KAE9B,CAAC;GAEW,gBAAgB,CAAG"}

@@ -1,0 +1,7 @@
+export declare class FleetEngine {
+    execute(input: any): {
+        engine: string;
+        success: boolean;
+        data: any;
+    };
+}

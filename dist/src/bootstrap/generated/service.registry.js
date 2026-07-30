@@ -1,0 +1,36 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.service_registry = void 0;
+exports.service_registry = [
+    'agent',
+    'agent.memory',
+    'ai',
+    'app',
+    'boot',
+    'bootstrap',
+    'build',
+    'chat',
+    'command',
+    'config',
+    'diagnostics',
+    'executor',
+    'health',
+    'knowledge',
+    'lifecycle',
+    'local.llm',
+    'logger',
+    'memory',
+    'metrics',
+    'monitor',
+    'orchestrator',
+    'planner',
+    'projects',
+    'registry',
+    'runtime',
+    'scheduler',
+    'snapshot',
+    'storage',
+    'vision',
+    'workspace',
+];
+//# sourceMappingURL=service.registry.js.map

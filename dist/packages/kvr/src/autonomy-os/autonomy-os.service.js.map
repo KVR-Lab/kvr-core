@@ -1,0 +1,1 @@
+{"version":3,"file":"autonomy-os.service.js","sourceRoot":"","sources":["../../../../../packages/kvr/src/autonomy-os/autonomy-os.service.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAA4C;AAGrC,IAAM,iBAAiB,GAAvB,MAAM,iBAAiB;IAE7B,OAAO,CAAC,OAAW;QAElB,OAAO;YACN,UAAU,EAAC,IAAI;YACf,OAAO;SACP,CAAC;IAEH,CAAC;CAED,CAAA;AAXY,8CAAiB;4BAAjB,iBAAiB;IAD7B,IAAA,mBAAU,GAAE;GACA,iBAAiB,CAW7B"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"authorization.engine.js","sourceRoot":"","sources":["../../../../../packages/kvr/src/security-os/authorization.engine.ts"],"names":[],"mappings":";;;AAAA,MAAa,mBAAmB;IAE/B,OAAO,CAAC,KAAS;QAEhB,OAAM;YAEL,MAAM,EAAC,eAAe;YACtB,OAAO,EAAC,IAAI;YACZ,IAAI,EAAC,KAAK;SAEV,CAAC;IAEH,CAAC;CAED;AAdD,kDAcC"}

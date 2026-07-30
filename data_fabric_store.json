@@ -1,0 +1,17 @@
+[
+  {
+    "order_id": "PO-SWARM-1003",
+    "specs": {
+      "recommended_flute": "32 ECT Single-Wall C-Flute",
+      "weight_savings": "18% weight reduction achieved vs 44 ECT",
+      "reinforcement_strategy": "Localized Corner Posts + Die-Cut Inserts",
+      "bio_foam_volume_cm3": 408.0,
+      "target_drop_height_inches": 48.0
+    },
+    "pricing": {
+      "unit_cost_usd": 16.38,
+      "savings_status": "18% cost reduction applied"
+    },
+    "timestamp": "2026-07-30"
+  }
+]

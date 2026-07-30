@@ -1,0 +1,1 @@
+{"version":3,"file":"quantum-os.service.js","sourceRoot":"","sources":["../../../../../packages/kvr/src/quantum-os/quantum-os.service.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAA4C;AAGrC,IAAM,gBAAgB,GAAtB,MAAM,gBAAgB;IAE5B,OAAO,CAAC,KAAS;QAEhB,OAAO;YACN,OAAO,EAAC,IAAI;YACZ,KAAK;SACL,CAAC;IAEH,CAAC;CAED,CAAA;AAXY,4CAAgB;2BAAhB,gBAAgB;IAD5B,IAAA,mBAAU,GAAE;GACA,gBAAgB,CAW5B"}

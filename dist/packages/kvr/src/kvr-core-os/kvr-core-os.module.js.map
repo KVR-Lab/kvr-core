@@ -1,0 +1,1 @@
+{"version":3,"file":"kvr-core-os.module.js","sourceRoot":"","sources":["../../../../../packages/kvr/src/kvr-core-os/kvr-core-os.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,+DAAyD;AAMlD,IAAM,eAAe,GAArB,MAAM,eAAe;CAAG,CAAA;AAAlB,0CAAe;0BAAf,eAAe;IAJ3B,IAAA,eAAM,EAAC;QACP,SAAS,EAAC,CAAC,sCAAgB,CAAC;QAC5B,OAAO,EAAC,CAAC,sCAAgB,CAAC;KAC1B,CAAC;GACW,eAAe,CAAG"}
