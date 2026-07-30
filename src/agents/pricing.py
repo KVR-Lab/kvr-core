@@ -1,20 +1,15 @@
-﻿class DynamicPricingAgent:
-    def calculate_cost(self, packaging_specs: dict) -> dict:
-        """حساب التكلفة الإجمالية والوفر الناتج عن تقليل وزن الخامات"""
-        base_material_cost = 15.0  # تكلفة افتراضية
-        
-        # تطبيق الخصم بناءً على وفر الوزن 18%
-        if "18% weight reduction" in packaging_specs.get("weight_savings", ""):
-            unit_cost = base_material_cost * 0.82
-            savings_note = "18% cost reduction applied"
-        else:
-            unit_cost = base_material_cost
-            savings_note = "Standard pricing applied"
-            
-        cushioning_cost = packaging_specs.get("bio_foam_volume_cm3", 0) * 0.01
-        total_cost = round(unit_cost + cushioning_cost, 2)
+﻿class DynamicPricingEngine:
+    def __init__(self, base_rate_per_kg: float = 2.5, fragility_multiplier: float = 1.5):
+        self.base_rate = base_rate_per_kg
+        self.fragility_multiplier = fragility_multiplier
+
+    def calculate_cost(self, weight_kg: float, fragility_g: float) -> dict:
+        base_cost = weight_kg * self.base_rate
+        protection_fee = (fragility_g / 10.0) * self.fragility_multiplier
+        total_price = round(base_cost + protection_fee, 2)
         
         return {
-            "unit_cost_usd": total_cost,
-            "savings_status": savings_note
+            "base_cost": round(base_cost, 2),
+            "protection_fee": round(protection_fee, 2),
+            "total_price_usd": total_price
         }
