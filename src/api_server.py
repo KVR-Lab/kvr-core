@@ -1,6 +1,9 @@
 ﻿from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel
-from src.sap.client import SAPClient
+try:
+    from src.sap.client import SAPODataClient as SAPClient
+except ImportError:
+    from src.sap.client import SAPClient
 from src.agents.governance import SwarmGovernanceGuardrails, CircuitBreakerException
 from src.engine.telemetry import SwarmTelemetry
 
@@ -26,8 +29,7 @@ def health_check():
 @app.post("/api/v1/optimize-packaging")
 def optimize_packaging(req: PackagingRequest, background_tasks: BackgroundTasks):
     try:
-        # Check governance guardrails
-        estimated_cost = req.weight_kg * 12.5  # Dynamic cost heuristic
+        estimated_cost = req.weight_kg * 12.5
         gov_check = governance.check_transaction(calculated_cost=estimated_cost, fragility_g=req.fragility_g)
 
         if gov_check["requires_human_approval"]:
@@ -41,7 +43,6 @@ def optimize_packaging(req: PackagingRequest, background_tasks: BackgroundTasks)
                 "item_id": req.item_id
             }
 
-        # Telemetry logging
         background_tasks.add_task(
             telemetry.log_event, 
             "decision_made", 
