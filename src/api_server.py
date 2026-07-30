@@ -2,10 +2,12 @@
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 from src.memory import UnifiedDataFabricMemory
+from src.agents.pricing import DynamicPricingEngine
 
 app = FastAPI(title="KVRAT.ai Core API", version="1.0.0")
 
 memory = UnifiedDataFabricMemory()
+pricing_engine = DynamicPricingEngine()
 
 class OptimizationRequest(BaseModel):
     item_id: str
@@ -23,11 +25,14 @@ def health_check():
 
 @app.post("/api/v1/optimize-packaging")
 def optimize_packaging(req: OptimizationRequest):
+    pricing = pricing_engine.calculate_cost(req.weight_kg, req.fragility_g)
+    
     if req.fragility_g > 50.0:
         decision = {
             "item_id": req.item_id,
             "status": "PENDING_APPROVAL",
-            "message": "High fragility requires human clearance"
+            "message": "High fragility requires human clearance",
+            "pricing": pricing
         }
         memory.store_decision(req.item_id, decision)
         return decision
@@ -36,7 +41,8 @@ def optimize_packaging(req: OptimizationRequest):
     decision = {
         "item_id": req.item_id,
         "status": "SUCCESS",
-        "specification": spec
+        "specification": spec,
+        "pricing": pricing
     }
     memory.store_decision(req.item_id, decision)
     return decision
@@ -53,4 +59,4 @@ def approve_transaction(approval: TransactionApproval):
 
 @app.get("/api/v1/telemetry/metrics")
 def get_metrics():
-    return {"total_requests": 142, "latency_ms": 18.4, "active_agents": 4}
+    return {"total_requests": 142, "latency_ms": 18.4, "active_agents": 5}
