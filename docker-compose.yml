@@ -1,17 +1,18 @@
 ﻿version: '3.8'
 
 services:
-  kvrat-engine:
-    build: .
-    container_name: kvrat-core-engine
+  kvrat-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kvrat_core_api
     ports:
       - "8000:8000"
     environment:
-      - SAP_ODATA_URL=https://sap-s4hana.kvrat.ai/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV
-      - DATA_FABRIC_PATH=/app/data/data_fabric_store.json
+      - ENVIRONMENT=production
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
       retries: 3
