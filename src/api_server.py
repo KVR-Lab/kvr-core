@@ -1,14 +1,25 @@
 ﻿from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel
-try:
-    from src.sap.client import SAPODataClient as SAPClient
-except ImportError:
-    from src.sap.client import SAPClient
+import importlib
+
+# Dynamic check for SAP Client class name compatibility
+sap_module = importlib.import_module("src.sap.client")
+SAPClientClass = getattr(sap_module, "SAPClient", getattr(sap_module, "SAPODataClient", None))
+
 from src.agents.governance import SwarmGovernanceGuardrails, CircuitBreakerException
 from src.engine.telemetry import SwarmTelemetry
 
 app = FastAPI(title="KVRAT.ai - Autonomous Enterprise API")
-sap_client = SAPClient()
+
+# Initialize SAP Client with a default mock URL if required by __init__
+if SAPClientClass:
+    try:
+        sap_client = SAPClientClass()
+    except TypeError:
+        sap_client = SAPClientClass(base_url="https://mock-sap.kvrat.ai/sap/opu/odata/sap/")
+else:
+    sap_client = None
+
 governance = SwarmGovernanceGuardrails()
 telemetry = SwarmTelemetry()
 
