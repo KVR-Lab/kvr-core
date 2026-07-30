@@ -1,4 +1,8 @@
-﻿__pycache__/
+﻿node_modules/
+.pnpm/
+dist/
+__pycache__/
 *.pyc
 .env
 .vscode/
+.next/
