@@ -1,3 +1,7 @@
 ﻿__pycache__/
 *.pyc
 data_fabric_store.json
+data/
+.env
+node_modules/
+.agents/
