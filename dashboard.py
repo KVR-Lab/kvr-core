@@ -1,4 +1,5 @@
-﻿import streamlit as st
+﻿import os
+import streamlit as st
 import requests
 
 API_URL = "http://localhost:8000"
@@ -26,7 +27,13 @@ except Exception:
 
 st.divider()
 
-tab1, tab2, tab3, tab4 = st.tabs(["📦 تحسين التغليف والتسعير", "✋ الموافقات البشرية", "📊 القياسات والتحليلات", "🧠 الذاكرة الموحدة"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "📦 تحسين التغليف والتسعير", 
+    "✋ الموافقات البشرية", 
+    "📊 القياسات والتحليلات", 
+    "🧠 الذاكرة الموحدة",
+    "📜 السجلات المباشرة (Logs)"
+])
 
 with tab1:
     st.subheader("إرسال طلب تحسين تغليف وتسعير جديد")
@@ -98,3 +105,13 @@ with tab4:
             st.json(history_res)
         except Exception as e:
             st.error(f"خطأ في الاتصال بالذاكرة: {e}")
+
+with tab5:
+    st.subheader("عرض سجلات النظام المباشرة (System Logs)")
+    if st.button("تحديث السجلات"):
+        if os.path.exists("app.log"):
+            with open("app.log", "r", encoding="utf-8") as f:
+                logs = f.readlines()
+            st.code("".join(logs[-30:]), language="text")
+        else:
+            st.info("لا توجد سجلات متاحة حالياً.")
