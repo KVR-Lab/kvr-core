@@ -1,9 +1,14 @@
-﻿from fastapi import FastAPI, HTTPException
+﻿import os
+from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
 from src.memory import UnifiedDataFabricMemory
 from src.agents.pricing import DynamicPricingEngine
 from src.agents.governance import GovernanceAgent
+
+# تحميل متغيرات البيئة من .env
+load_dotenv()
 
 app = FastAPI(title="KVRAT.ai Core API", version="1.0.0")
 
@@ -23,19 +28,20 @@ class TransactionApproval(BaseModel):
 
 @app.get("/health")
 def health_check():
-    return {"status": "ONLINE", "circuit_breaker_state": "CLOSED"}
+    return {
+        "status": "ONLINE", 
+        "circuit_breaker_state": "CLOSED",
+        "environment": os.getenv("ENVIRONMENT", "development")
+    }
 
 @app.post("/api/v1/optimize-packaging")
 def optimize_packaging(req: OptimizationRequest):
-    # 1. تطبيق حوكمة الأمان أولاً
     gov_check = governance_agent.validate_request(req.weight_kg, req.fragility_g, req.dimensions_cm)
     if not gov_check["valid"]:
         return {"status": "REJECTED_BY_GOVERNANCE", "reason": gov_check["reason"]}
 
-    # 2. حساب التسعير
     pricing = pricing_engine.calculate_cost(req.weight_kg, req.fragility_g)
     
-    # 3. التحقق من الحاجة لموافقة بشرية
     if req.fragility_g > 50.0:
         decision = {
             "item_id": req.item_id,
