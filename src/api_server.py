@@ -1,4 +1,5 @@
 ﻿import os
+import logging
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -7,8 +8,17 @@ from src.memory import UnifiedDataFabricMemory
 from src.agents.pricing import DynamicPricingEngine
 from src.agents.governance import GovernanceAgent
 
-# تحميل متغيرات البيئة من .env
 load_dotenv()
+
+# إعداد السجلات
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("app.log", encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
 
 app = FastAPI(title="KVRAT.ai Core API", version="1.0.0")
 
@@ -28,6 +38,7 @@ class TransactionApproval(BaseModel):
 
 @app.get("/health")
 def health_check():
+    logging.info("Health check endpoint requested")
     return {
         "status": "ONLINE", 
         "circuit_breaker_state": "CLOSED",
@@ -36,8 +47,11 @@ def health_check():
 
 @app.post("/api/v1/optimize-packaging")
 def optimize_packaging(req: OptimizationRequest):
+    logging.info(f"Processing packaging optimization for item: {req.item_id}")
+    
     gov_check = governance_agent.validate_request(req.weight_kg, req.fragility_g, req.dimensions_cm)
     if not gov_check["valid"]:
+        logging.warning(f"Governance rejected item {req.item_id}: {gov_check['reason']}")
         return {"status": "REJECTED_BY_GOVERNANCE", "reason": gov_check["reason"]}
 
     pricing = pricing_engine.calculate_cost(req.weight_kg, req.fragility_g)
@@ -50,6 +64,7 @@ def optimize_packaging(req: OptimizationRequest):
             "pricing": pricing
         }
         memory.store_decision(req.item_id, decision)
+        logging.info(f"Item {req.item_id} marked PENDING_APPROVAL due to fragility")
         return decision
     
     spec = f"Standard-Box-{int(req.weight_kg)}kg"
@@ -60,6 +75,7 @@ def optimize_packaging(req: OptimizationRequest):
         "pricing": pricing
     }
     memory.store_decision(req.item_id, decision)
+    logging.info(f"Optimization successful for item {req.item_id}")
     return decision
 
 @app.get("/api/v1/history/{item_id}")
@@ -70,6 +86,7 @@ def get_item_history(item_id: str):
 @app.post("/api/v1/approve-transaction")
 def approve_transaction(approval: TransactionApproval):
     status_str = "APPROVED" if approval.approved else "REJECTED"
+    logging.info(f"Transaction {approval.transaction_id} status updated to {status_str}")
     return {"transaction_id": approval.transaction_id, "status": status_str}
 
 @app.get("/api/v1/telemetry/metrics")
