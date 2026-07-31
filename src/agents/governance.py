@@ -1,5 +1,9 @@
-﻿class GovernanceAgent:
-    def __init__(self, max_weight_kg: float = 100.0):
+﻿import os
+
+class GovernanceAgent:
+    def __init__(self, max_weight_kg: float = None):
+        if max_weight_kg is None:
+            max_weight_kg = float(os.getenv("MAX_WEIGHT_LIMIT", 100.0))
         self.max_weight_kg = max_weight_kg
 
     def validate_request(self, weight_kg: float, fragility_g: float, dimensions_cm: list) -> dict:
