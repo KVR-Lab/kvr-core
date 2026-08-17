@@ -1,0 +1,15 @@
+{
+  "name": "KVRAT.ai Core",
+  "install": "pip3 install --user -r requirements.txt",
+  "ports": [8000, 8501],
+  "terminals": [
+    {
+      "name": "API (FastAPI)",
+      "command": "python3 -m uvicorn src.api_server:app --host 0.0.0.0 --port 8000 --reload"
+    },
+    {
+      "name": "Dashboard (Streamlit)",
+      "command": "python3 -m streamlit run dashboard.py --server.port=8501 --server.address=0.0.0.0 --server.headless=true"
+    }
+  ]
+}
