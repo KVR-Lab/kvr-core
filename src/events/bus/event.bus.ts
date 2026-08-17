@@ -1,6 +1,8 @@
-﻿import { KvrEvent } from '../event.interface';
+﻿import { Injectable } from '@nestjs/common';
 
+import { KvrEvent } from '../event.interface';
 
+@Injectable()
 export class EventBus {
 
 

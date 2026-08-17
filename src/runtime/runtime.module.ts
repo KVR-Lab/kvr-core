@@ -2,6 +2,8 @@ import { Module } from "@nestjs/common";
 
 import { RuntimeService } from "./runtime.service";
 import { RuntimeLoop } from "./runtime.loop";
+import { RuntimeController } from "./runtime.controller";
+import { RuntimeStateManager } from "./runtime-state.manager";
 
 import { EventBus } from "../events/bus/event.bus";
 
@@ -21,14 +23,19 @@ import { OrchestratorModule } from "../orchestrator/orchestrator.module";
         BrainModule,
         OrchestratorModule
     ],
+    controllers: [
+        RuntimeController
+    ],
     providers: [
         RuntimeService,
         RuntimeLoop,
+        RuntimeStateManager,
         EventBus
     ],
     exports: [
         RuntimeService,
-        RuntimeLoop
+        RuntimeLoop,
+        RuntimeStateManager
     ]
 })
 export class RuntimeModule {}

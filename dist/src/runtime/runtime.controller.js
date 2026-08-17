@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RuntimeController = void 0;
 const common_1 = require("@nestjs/common");
@@ -20,6 +23,24 @@ let RuntimeController = class RuntimeController {
     status() {
         return this.service.status();
     }
+    operations() {
+        return this.service.operations();
+    }
+    operation(id) {
+        return this.service.operation(id);
+    }
+    pause() {
+        return this.service.pause();
+    }
+    resume() {
+        return this.service.resume();
+    }
+    cancelCurrent() {
+        return this.service.cancel();
+    }
+    cancel(id) {
+        return this.service.cancel(id);
+    }
 };
 exports.RuntimeController = RuntimeController;
 __decorate([
@@ -28,6 +49,44 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], RuntimeController.prototype, "status", null);
+__decorate([
+    (0, common_1.Get)('operations'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], RuntimeController.prototype, "operations", null);
+__decorate([
+    (0, common_1.Get)('operations/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], RuntimeController.prototype, "operation", null);
+__decorate([
+    (0, common_1.Post)('pause'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], RuntimeController.prototype, "pause", null);
+__decorate([
+    (0, common_1.Post)('resume'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], RuntimeController.prototype, "resume", null);
+__decorate([
+    (0, common_1.Post)('cancel'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], RuntimeController.prototype, "cancelCurrent", null);
+__decorate([
+    (0, common_1.Post)('cancel/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], RuntimeController.prototype, "cancel", null);
 exports.RuntimeController = RuntimeController = __decorate([
     (0, common_1.Controller)('runtime'),
     __metadata("design:paramtypes", [runtime_service_1.RuntimeService])

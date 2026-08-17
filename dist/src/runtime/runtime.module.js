@@ -10,6 +10,8 @@ exports.RuntimeModule = void 0;
 const common_1 = require("@nestjs/common");
 const runtime_service_1 = require("./runtime.service");
 const runtime_loop_1 = require("./runtime.loop");
+const runtime_controller_1 = require("./runtime.controller");
+const runtime_state_manager_1 = require("./runtime-state.manager");
 const event_bus_1 = require("../events/bus/event.bus");
 const planner_module_1 = require("../planner/planner.module");
 const executor_module_1 = require("../executor/executor.module");
@@ -30,14 +32,19 @@ exports.RuntimeModule = RuntimeModule = __decorate([
             brain_module_1.BrainModule,
             orchestrator_module_1.OrchestratorModule
         ],
+        controllers: [
+            runtime_controller_1.RuntimeController
+        ],
         providers: [
             runtime_service_1.RuntimeService,
             runtime_loop_1.RuntimeLoop,
+            runtime_state_manager_1.RuntimeStateManager,
             event_bus_1.EventBus
         ],
         exports: [
             runtime_service_1.RuntimeService,
-            runtime_loop_1.RuntimeLoop
+            runtime_loop_1.RuntimeLoop,
+            runtime_state_manager_1.RuntimeStateManager
         ]
     })
 ], RuntimeModule);
