@@ -6,7 +6,7 @@ export class ArchitectAgent implements Agent{
 name="architect";
 
 canHandle(task:Task){
-return task.type=="architect";
+return task.type=="architect" || task.type=="project";
 }
 
 async execute(task:Task){

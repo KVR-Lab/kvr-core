@@ -1,3 +1,5 @@
 export * from './scheduler.module';
 export * from './scheduler.service';
 export * from './task.queue';
+export * from './scheduled-job';
+export * from './scheduler.controller';

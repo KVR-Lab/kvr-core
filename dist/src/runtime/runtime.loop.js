@@ -14,19 +14,53 @@ const common_1 = require("@nestjs/common");
 const planner_1 = require("../planner");
 const executor_1 = require("../executor");
 const orchestrator_service_1 = require("../orchestrator/orchestrator.service");
+const scheduler_service_1 = require("../scheduler/scheduler.service");
 const runtime_state_manager_1 = require("./runtime-state.manager");
+function resolveTaskType(plan) {
+    if (typeof plan?.type === "string" && plan.type) {
+        return plan.type;
+    }
+    if (typeof plan?.command?.type === "string" && plan.command.type) {
+        return plan.command.type;
+    }
+    const text = typeof plan?.command === "string"
+        ? plan.command
+        : JSON.stringify(plan?.command ?? "");
+    const lower = text.toLowerCase();
+    if (/\b(frontend|ui|dashboard|streamlit)\b/.test(lower)) {
+        return "frontend";
+    }
+    if (/\b(backend|api|server|nest)\b/.test(lower)) {
+        return "backend";
+    }
+    if (/\b(database|postgres|prisma|schema)\b/.test(lower)) {
+        return "database";
+    }
+    if (/\b(devops|docker|deploy|ci)\b/.test(lower)) {
+        return "devops";
+    }
+    if (/\b(ai|llm|brain)\b/.test(lower)) {
+        return "ai";
+    }
+    if (/\b(architect|architecture|project)\b/.test(lower)) {
+        return "architect";
+    }
+    return "project";
+}
 let RuntimeLoop = class RuntimeLoop {
     planner;
     orchestrator;
     executor;
     state;
+    scheduler;
     running = false;
     starting = false;
-    constructor(planner, orchestrator, executor, state) {
+    constructor(planner, orchestrator, executor, state, scheduler) {
         this.planner = planner;
         this.orchestrator = orchestrator;
         this.executor = executor;
         this.state = state;
+        this.scheduler = scheduler;
     }
     isRunning() {
         return this.running;
@@ -52,8 +86,29 @@ let RuntimeLoop = class RuntimeLoop {
         this.running = false;
     }
     async tick() {
-        if (!this.running || this.state.isPaused()) {
+        if (this.state.isPaused()) {
             return null;
+        }
+        const job = this.scheduler.dequeueReady();
+        if (job) {
+            const plan = job.plan ?? this.planner.plan(job.command);
+            try {
+                const result = await this.processPlan(plan);
+                if (result?.status === "FAILED") {
+                    this.scheduler.markFailed(job.id, result.error);
+                }
+                else if (result?.status === "CANCELLED") {
+                    this.scheduler.cancel(job.id);
+                }
+                else {
+                    this.scheduler.markDone(job.id);
+                }
+                return result;
+            }
+            catch (error) {
+                this.scheduler.markFailed(job.id, error);
+                throw error;
+            }
         }
         const plan = await this.planner.next();
         if (!plan) {
@@ -73,7 +128,7 @@ let RuntimeLoop = class RuntimeLoop {
             }
             const task = {
                 id: plan?.id ?? operation.id,
-                type: "project",
+                type: resolveTaskType(plan),
                 payload: plan
             };
             const dispatch = await this.orchestrator.dispatch(task);
@@ -101,6 +156,7 @@ exports.RuntimeLoop = RuntimeLoop = __decorate([
     __metadata("design:paramtypes", [planner_1.PlannerService,
         orchestrator_service_1.OrchestratorService,
         executor_1.ExecutorService,
-        runtime_state_manager_1.RuntimeStateManager])
+        runtime_state_manager_1.RuntimeStateManager,
+        scheduler_service_1.SchedulerService])
 ], RuntimeLoop);
 //# sourceMappingURL=runtime.loop.js.map

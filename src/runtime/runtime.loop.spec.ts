@@ -5,18 +5,33 @@ import { EventBus } from '../events/bus/event.bus';
 
 describe('RuntimeLoop', () => {
   let loop: RuntimeLoop;
-  let planner: { next: jest.Mock };
+  let planner: { next: jest.Mock; plan: jest.Mock };
   let orchestrator: { dispatch: jest.Mock };
   let executor: { execute: jest.Mock };
+  let scheduler: {
+    dequeueReady: jest.Mock;
+    markDone: jest.Mock;
+    markFailed: jest.Mock;
+    cancel: jest.Mock;
+  };
   let state: RuntimeStateManager;
 
   beforeEach(() => {
-    planner = { next: jest.fn().mockResolvedValue(null) };
+    planner = {
+      next: jest.fn().mockResolvedValue(null),
+      plan: jest.fn((command) => ({ id: 'from-command', command, steps: [] })),
+    };
     orchestrator = {
       dispatch: jest.fn().mockResolvedValue({ status: 'no-agent' }),
     };
     executor = {
       execute: jest.fn().mockResolvedValue({ success: true, executed: 2 }),
+    };
+    scheduler = {
+      dequeueReady: jest.fn().mockReturnValue(null),
+      markDone: jest.fn(),
+      markFailed: jest.fn(),
+      cancel: jest.fn(),
     };
     state = new RuntimeStateManager(
       { store: jest.fn((item) => item) } as unknown as MemoryService,
@@ -28,6 +43,7 @@ describe('RuntimeLoop', () => {
       orchestrator as any,
       executor as any,
       state,
+      scheduler as any,
     );
   });
 
@@ -39,6 +55,7 @@ describe('RuntimeLoop', () => {
     await loop.tick();
 
     expect(planner.next).not.toHaveBeenCalled();
+    expect(scheduler.dequeueReady).not.toHaveBeenCalled();
   });
 
   it('records COMPLETED after dispatching and executing the plan', async () => {
@@ -60,6 +77,35 @@ describe('RuntimeLoop', () => {
       dispatch: { status: 'no-agent' },
       executed: { success: true, executed: 2 },
     });
+  });
+
+  it('infers a specialist type from the plan command', async () => {
+    await loop.processPlan({
+      id: 'plan-api',
+      command: 'build the backend API',
+      steps: [],
+    });
+
+    expect(orchestrator.dispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'plan-api',
+        type: 'backend',
+      }),
+    );
+  });
+
+  it('runs a scheduled job before the planner queue', async () => {
+    state.markLoopStarted();
+    scheduler.dequeueReady.mockReturnValue({
+      id: 'job-1',
+      command: 'ship backend',
+    });
+
+    await loop.tick();
+
+    expect(planner.plan).toHaveBeenCalledWith('ship backend');
+    expect(planner.next).not.toHaveBeenCalled();
+    expect(scheduler.markDone).toHaveBeenCalledWith('job-1');
   });
 
   it('completes in-flight work after the runtime is paused', async () => {
