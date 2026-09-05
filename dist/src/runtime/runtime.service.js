@@ -43,6 +43,9 @@ let RuntimeService = class RuntimeService {
     }
     cancel(id) {
         if (id) {
+            if (!this.state.get(id)) {
+                return null;
+            }
             return this.state.cancel(id);
         }
         return this.state.cancelCurrent();

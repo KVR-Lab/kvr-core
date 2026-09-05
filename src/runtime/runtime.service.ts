@@ -40,6 +40,10 @@ export class RuntimeService implements OnModuleInit, OnModuleDestroy {
 
     cancel(id?: string) {
         if (id) {
+            if (!this.state.get(id)) {
+                return null;
+            }
+
             return this.state.cancel(id);
         }
 

@@ -36,7 +36,12 @@ export class RuntimeLoop {
 
         while (this.running) {
 
-            await this.tick();
+            try {
+                await this.tick();
+            } catch {
+                // A single failed tick must not stop the runtime loop.
+            }
+
             await new Promise(resolve => setTimeout(resolve, 500));
 
         }

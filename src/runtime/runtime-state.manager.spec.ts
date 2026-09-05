@@ -99,6 +99,20 @@ describe('RuntimeStateManager', () => {
     expect(manager.cancel(paused.id).status).toBe('CANCELLED');
   });
 
+  it('lets an in-flight paused operation complete or fail', () => {
+    const created = manager.create();
+    manager.start(created.id);
+    manager.pauseRuntime();
+
+    expect(manager.complete(created.id, { done: true }).status).toBe('COMPLETED');
+
+    const failed = manager.create();
+    manager.start(failed.id);
+    manager.pause(failed.id);
+
+    expect(manager.fail(failed.id, new Error('paused fail')).status).toBe('FAILED');
+  });
+
   it('rejects illegal transitions', () => {
     const created = manager.create();
 

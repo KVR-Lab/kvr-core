@@ -17,7 +17,7 @@ const runtime_state_1 = require("./runtime-state");
 const ALLOWED_TRANSITIONS = {
     WAITING: ['RUNNING', 'CANCELLED'],
     RUNNING: ['PAUSED', 'COMPLETED', 'FAILED', 'CANCELLED'],
-    PAUSED: ['RUNNING', 'CANCELLED'],
+    PAUSED: ['RUNNING', 'CANCELLED', 'COMPLETED', 'FAILED'],
     COMPLETED: [],
     FAILED: [],
     CANCELLED: [],
