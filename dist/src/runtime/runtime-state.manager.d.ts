@@ -1,0 +1,40 @@
+import { MemoryService } from '../memory/memory.service';
+import { EventBus } from '../events/bus/event.bus';
+import { RuntimeOperation, RuntimeSnapshot, RuntimeStatus } from './runtime-state';
+export declare class RuntimeStateManager {
+    private readonly memory;
+    private readonly events;
+    private readonly operations;
+    private loopStatus;
+    private loopStartedAt;
+    private currentId;
+    private seq;
+    constructor(memory: MemoryService, events: EventBus);
+    snapshot(): RuntimeSnapshot;
+    list(): RuntimeOperation[];
+    get(id: string): RuntimeOperation | undefined;
+    current(): RuntimeOperation | null;
+    isPaused(): boolean;
+    isLoopActive(): boolean;
+    markLoopStarted(): RuntimeSnapshot;
+    pauseRuntime(): RuntimeSnapshot;
+    resumeRuntime(): RuntimeSnapshot;
+    create(input?: {
+        source?: string;
+        planId?: string;
+        id?: string;
+    }): RuntimeOperation;
+    start(id: string): RuntimeOperation;
+    pause(id: string): RuntimeOperation;
+    resume(id: string): RuntimeOperation;
+    complete(id: string, result?: unknown): RuntimeOperation;
+    fail(id: string, error: unknown): RuntimeOperation;
+    cancel(id: string): RuntimeOperation;
+    cancelCurrent(): RuntimeOperation | null;
+    private finish;
+    private transition;
+    private persist;
+    private emit;
+    private toErrorMessage;
+    isTerminal(status: RuntimeStatus): boolean;
+}

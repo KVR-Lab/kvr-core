@@ -4,28 +4,16 @@ export declare class RuntimeManager {
     constructor(runtime: RuntimeService);
     start(): {
         success: boolean;
-        runtime: {
-            running: boolean;
-            service: string;
-            startedAt: string;
-        };
+        runtime: import("../runtime").RuntimeSnapshot;
     };
     status(): {
         success: boolean;
-        state: string;
-        runtime: {
-            running: boolean;
-            service: string;
-            startedAt: string;
-        };
+        state: "WAITING" | "RUNNING" | "PAUSED" | "COMPLETED" | "FAILED" | "CANCELLED";
+        runtime: import("../runtime").RuntimeSnapshot;
         timestamp: string;
     };
     health(): {
         ok: boolean;
-        runtime: {
-            running: boolean;
-            service: string;
-            startedAt: string;
-        };
+        runtime: import("../runtime").RuntimeSnapshot;
     };
 }

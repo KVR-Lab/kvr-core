@@ -12,25 +12,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RuntimeService = void 0;
 const common_1 = require("@nestjs/common");
 const runtime_loop_1 = require("./runtime.loop");
+const runtime_state_manager_1 = require("./runtime-state.manager");
 let RuntimeService = class RuntimeService {
     loop;
-    constructor(loop) {
+    state;
+    constructor(loop, state) {
         this.loop = loop;
+        this.state = state;
     }
     async onModuleInit() {
         this.loop.start();
     }
+    onModuleDestroy() {
+        this.loop.stop();
+    }
     status() {
-        return {
-            running: true,
-            service: "runtime",
-            startedAt: new Date().toISOString()
-        };
+        return this.state.snapshot();
+    }
+    operations() {
+        return this.state.list();
+    }
+    operation(id) {
+        return this.state.get(id) ?? null;
+    }
+    pause() {
+        return this.state.pauseRuntime();
+    }
+    resume() {
+        return this.state.resumeRuntime();
+    }
+    cancel(id) {
+        if (id) {
+            return this.state.cancel(id);
+        }
+        return this.state.cancelCurrent();
     }
 };
 exports.RuntimeService = RuntimeService;
 exports.RuntimeService = RuntimeService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [runtime_loop_1.RuntimeLoop])
+    __metadata("design:paramtypes", [runtime_loop_1.RuntimeLoop,
+        runtime_state_manager_1.RuntimeStateManager])
 ], RuntimeService);
 //# sourceMappingURL=runtime.service.js.map

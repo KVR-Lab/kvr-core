@@ -1,12 +1,16 @@
-import { OnModuleInit } from "@nestjs/common";
+import { OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { RuntimeLoop } from "./runtime.loop";
-export declare class RuntimeService implements OnModuleInit {
+import { RuntimeStateManager } from "./runtime-state.manager";
+export declare class RuntimeService implements OnModuleInit, OnModuleDestroy {
     private readonly loop;
-    constructor(loop: RuntimeLoop);
+    private readonly state;
+    constructor(loop: RuntimeLoop, state: RuntimeStateManager);
     onModuleInit(): Promise<void>;
-    status(): {
-        running: boolean;
-        service: string;
-        startedAt: string;
-    };
+    onModuleDestroy(): void;
+    status(): import("./runtime-state").RuntimeSnapshot;
+    operations(): import("./runtime-state").RuntimeOperation[];
+    operation(id: string): import("./runtime-state").RuntimeOperation | null;
+    pause(): import("./runtime-state").RuntimeSnapshot;
+    resume(): import("./runtime-state").RuntimeSnapshot;
+    cancel(id?: string): import("./runtime-state").RuntimeOperation | null;
 }

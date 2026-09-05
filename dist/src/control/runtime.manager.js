@@ -24,10 +24,11 @@ let RuntimeManager = class RuntimeManager {
         };
     }
     status() {
+        const runtime = this.runtime.status();
         return {
             success: true,
-            state: 'running',
-            runtime: this.runtime.status(),
+            state: runtime.status,
+            runtime,
             timestamp: new Date().toISOString(),
         };
     }

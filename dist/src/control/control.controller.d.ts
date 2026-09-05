@@ -20,12 +20,8 @@ export declare class ControlController {
         };
         runtime: {
             success: boolean;
-            state: string;
-            runtime: {
-                running: boolean;
-                service: string;
-                startedAt: string;
-            };
+            state: "WAITING" | "RUNNING" | "PAUSED" | "COMPLETED" | "FAILED" | "CANCELLED";
+            runtime: import("../runtime").RuntimeSnapshot;
             timestamp: string;
         };
     };
