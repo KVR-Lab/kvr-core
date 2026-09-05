@@ -638,6 +638,8 @@ All changes require architecture review.
 
 \* Git Workflow
 
+\* Nx Project Graph
+
 
 
 \---
