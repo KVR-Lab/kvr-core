@@ -27,7 +27,11 @@ let RuntimeController = class RuntimeController {
         return this.service.operations();
     }
     operation(id) {
-        return this.service.operation(id);
+        const operation = this.service.operation(id);
+        if (!operation) {
+            throw new common_1.NotFoundException(`Unknown runtime operation: ${id}`);
+        }
+        return operation;
     }
     pause() {
         return this.service.pause();
@@ -39,7 +43,11 @@ let RuntimeController = class RuntimeController {
         return this.service.cancel();
     }
     cancel(id) {
-        return this.service.cancel(id);
+        const operation = this.service.cancel(id);
+        if (!operation) {
+            throw new common_1.NotFoundException(`Unknown runtime operation: ${id}`);
+        }
+        return operation;
     }
 };
 exports.RuntimeController = RuntimeController;

@@ -62,6 +62,24 @@ describe('RuntimeLoop', () => {
     });
   });
 
+  it('completes in-flight work after the runtime is paused', async () => {
+    let release!: () => void;
+    executor.execute.mockReturnValue(
+      new Promise((resolve) => {
+        release = () => resolve({ success: true, executed: 1 });
+      }),
+    );
+
+    const pending = loop.processPlan({ id: 'plan-pause' });
+    state.pauseRuntime();
+    release();
+
+    const operation = await pending;
+
+    expect(operation?.status).toBe('COMPLETED');
+    expect(state.snapshot().paused).toBe(true);
+  });
+
   it('records FAILED when execution throws', async () => {
     executor.execute.mockRejectedValue(new Error('write failed'));
 

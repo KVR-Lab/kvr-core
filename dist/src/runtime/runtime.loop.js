@@ -40,7 +40,11 @@ let RuntimeLoop = class RuntimeLoop {
         this.state.markLoopStarted();
         this.starting = false;
         while (this.running) {
-            await this.tick();
+            try {
+                await this.tick();
+            }
+            catch {
+            }
             await new Promise(resolve => setTimeout(resolve, 500));
         }
     }
