@@ -6,15 +6,12 @@ export const RuntimeStatuses = [
   'FAILED',
   'CANCELLED',
 ] as const;
-
 export type RuntimeStatus = (typeof RuntimeStatuses)[number];
-
 export const TerminalRuntimeStatuses: readonly RuntimeStatus[] = [
   'COMPLETED',
   'FAILED',
   'CANCELLED',
 ];
-
 export interface RuntimeOperation {
   id: string;
   source: string;
@@ -28,7 +25,6 @@ export interface RuntimeOperation {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface RuntimeSnapshot {
   service: 'runtime';
   status: RuntimeStatus;
