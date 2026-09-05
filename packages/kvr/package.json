@@ -1,0 +1,15 @@
+{
+  "name": "@kvr/core",
+  "version": "0.0.1",
+  "private": true,
+  "description": "KVR-Core platform library — kernel, runtime, and operating-system modules",
+  "main": "src/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "node -e \"require('fs').accessSync('src/index.js')\""
+  },
+  "nx": {
+    "name": "kvr",
+    "tags": ["type:lib", "scope:core"]
+  }
+}
