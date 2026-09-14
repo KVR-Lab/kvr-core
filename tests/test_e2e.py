@@ -1,6 +1,6 @@
-﻿import pytest
+import pytest
 from fastapi.testclient import TestClient
-from src.api_server import app, governance
+from src.api_server import app, governance_agent
 
 client = TestClient(app)
 
@@ -43,4 +43,4 @@ def test_manual_approval_endpoint():
 def test_telemetry_metrics():
     response = client.get("/api/v1/telemetry/metrics")
     assert response.status_code == 200
-    assert "total_processed" in response.json()
+    assert "total_requests" in response.json()
