@@ -1,6 +1,7 @@
 {
   "name": "KVRAT.ai Core",
   "install": "pip3 install --user -r requirements.txt",
+  "ports": [8000, 8501],
   "terminals": [
     {
       "name": "API (FastAPI)",
