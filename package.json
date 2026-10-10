@@ -23,6 +23,7 @@
     "desktop": "concurrently -k \"pnpm dashboard\" \"pnpm electron\""
   },
   "dependencies": {
+    "@google/genai": "^1.19.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
