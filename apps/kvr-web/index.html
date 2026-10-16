@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nail Golden & KVRAT.ai | Sovereign Command Engine</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #F8FAFC; color: #0F172A; margin: 0; padding: 0; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased bg-snowBg text-kvrDark min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-snowCard/80 backdrop-blur-md border-b border-kvrBorder px-6 py-3 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-kvrGreen animate-pulse"></div>
+                <span class="text-lg md:text-xl font-black tracking-wider text-kvrDark">Nail Golden <span class="text-kvrGold">& KVRAT.ai</span></span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-xs bg-kvrGreen/10 text-kvrDark font-bold px-3 py-1 rounded-full border border-kvrGreen/30">
+                    Sovereign Engine v1.0 Active
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Area -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow flex flex-col gap-8">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="text-center space-y-3">
+            <span class="inline-block text-xs font-extrabold text-kvrGold bg-kvrGold/10 px-3 py-1 rounded-full border border-kvrGold/20">
+                غرفة العمليات المركزية skvr
+            </span>
+            <h1 class="text-3xl md:text-4xl font-black text-kvrDark">المحرك الذكي & استقطاب 100 مورد معتمد</h1>
+            <p class="text-sm text-kvrMuted max-w-xl mx-auto">منظومة الربط والتنفيذ الفائق لإدارة التوريدات والمبيعات الذكية B2B & B2C</p>
+        </div>
+
+        <!-- Sovereign SKVR Chat Box -->
+        <div class="bg-snowCard border border-kvrBorder rounded-3xl shadow-sm overflow-hidden flex flex-col h-[480px]">
+            <!-- Chat Header -->
+            <div class="bg-snowBg border-b border-kvrBorder px-6 py-3 flex justify-between items-center text-xs text-kvrMuted font-bold">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-kvrGreen"></span>
+                    <span>SKVR Intelligence Console (K.V.R)</span>
+                </div>
+                <span>جاهز لاستقبال الصوت والملفات المستقبلي ⚡</span>
+            </div>
+
+            <!-- Chat Messages Log Window -->
+            <div id="chatLog" class="flex-grow p-6 overflow-y-auto space-y-4 custom-scrollbar text-sm">
+                <!-- System Welcome Message -->
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-xl bg-kvrDark text-kvrGold font-black flex items-center justify-center text-xs shrink-0 shadow-sm">
+                        KVR
+                    </div>
+                    <div class="bg-snowBg border border-kvrBorder rounded-2xl p-4 text-kvrDark max-w-[85%] leading-relaxed shadow-xs">
+                        أهلاً بك. تم تفعيل النسخة الأولى من شات <b>skvr</b> بنجاح! المنظومة جاهزة لاستقبال أوامرك وتلقي ملفات الموردين الـ 100 بكفاءة عالية.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Controls Area -->
+            <div class="p-4 bg-snowCard border-t border-kvrBorder">
+                <form id="chatForm" onsubmit="sendMessage(event)" class="relative flex items-center bg-snowBg border border-kvrBorder rounded-2xl p-2 focus-within:border-kvrGold transition-all shadow-inner">
+                    <!-- Attachment Button -->
+                    <button type="button" onclick="triggerFileUpload()" class="p-2 text-kvrMuted hover:text-kvrDark transition-colors rounded-xl hover:bg-snowCard" title="رفع ملفات أو صور">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                    </button>
+                    <input type="file" id="fileInput" class="hidden" multiple onchange="handleFileSelected(event)">
+
+                    <!-- Text Input Prompt -->
+                    <input type="text" id="userInput" placeholder="اكتب أمرك هنا..." class="w-full bg-transparent border-none text-sm px-3 text-kvrDark focus:outline-none placeholder:text-kvrMuted">
+
+                    <!-- Audio Mic Button -->
+                    <button type="button" onclick="toggleVoiceRecording()" class="p-2 text-kvrMuted hover:text-kvrGreen transition-colors rounded-xl hover:bg-snowCard" title="التسجيل الصوتي">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                    </button>
+
+                    <!-- Send Button -->
+                    <button type="submit" class="bg-kvrDark hover:bg-black text-white p-2.5 rounded-xl transition-all shadow-md mr-1 shrink-0">
+                        <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+                <div id="filePreview" class="text-xs text-kvrMuted mt-2 px-2 hidden"></div>
+            </div>
+        </div>
+
+        <!-- Supplier Onboarding B2B Form Section -->
+        <div id="onboarding" class="bg-snowCard border border-kvrBorder p-6 md:p-8 rounded-3xl shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-2 h-full bg-kvrGreen"></div>
+            <h3 class="text-xl font-bold text-kvrDark mb-1">استمارة اعتماد الموردين B2B (100 مورد)</h3>
+            <p class="text-xs text-kvrMuted mb-6">سجل بيانات التوريد للربط المباشر مع شبكة Nail Golden & KVRAT.ai</p>
+
+            <form action="#" method="POST" class="space-y-4 text-sm">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-kvrDark mb-1">اسم المنشأة / المصنع</label>
+                        <input type="text" required placeholder="اسم الشركة أو المصنع" class="w-full bg-snowBg border border-kvrBorder rounded-xl px-4 py-2.5 focus:outline-none focus:border-kvrGold">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-kvrDark mb-1">رقم الهاتف / واتساب</label>
+                        <input type="tel" required placeholder="01xxxxxxxxx" class="w-full bg-snowBg border border-kvrBorder rounded-xl px-4 py-2.5 focus:outline-none focus:border-kvrGold">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-kvrDark mb-1">تفاصيل المنتجات النهائية المتاحة للتوريد</label>
+                    <textarea rows="2" required placeholder="تحديد نوع المنتج والقدرة الإنتاجية..." class="w-full bg-snowBg border border-kvrBorder rounded-xl px-4 py-2.5 focus:outline-none focus:border-kvrGold"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-kvrDark hover:bg-black text-white font-bold py-3 rounded-xl border border-kvrGold/30 shadow-md transition-all">
+                    تقديم طلب الاعتماد الان 🚀
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-kvrBorder py-6 text-center text-xs text-kvrMuted">
+        <p>جميع الحقوق محفوظة © 2026 Nail Golden & KVRAT.ai — Sovereign Engine v1.0</p>
+    </footer>
+
+    <!-- Frontend Interactive Script -->
+    <script>
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('userInput');
+            const chatLog = document.getElementById('chatLog');
+            if (!input.value.trim()) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex items-start gap-3 justify-end';
+            userMsg.innerHTML = `
+                <div class="bg-kvrDark text-white border border-kvrGold/30 rounded-2xl p-4 max-w-[85%] leading-relaxed shadow-xs">
+                    ${input.value}
+                </div>
+                <div class="w-8 h-8 rounded-xl bg-kvrGold text-kvrDark font-black flex items-center justify-center text-xs shrink-0 shadow-sm">
+                    K
+                </div>
+            `;
+            chatLog.appendChild(userMsg);
+
+            const userQuery = input.value;
+            input.value = '';
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'flex items-start gap-3';
+                aiMsg.innerHTML = `
+                    <div class="w-8 h-8 rounded-xl bg-kvrDark text-kvrGreen font-black flex items-center justify-center text-xs shrink-0 shadow-sm">
+                        SKVR
+                    </div>
+                    <div class="bg-snowBg border border-kvrBorder rounded-2xl p-4 text-kvrDark max-w-[85%] leading-relaxed shadow-xs">
+                        تم استلام الأمر: "${userQuery}". جاري المعالجة داخل غرفة العمليات...
+                    </div>
+                `;
+                chatLog.appendChild(aiMsg);
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 800);
+        }
+
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileSelected(e) {
+            const preview = document.getElementById('filePreview');
+            const files = e.target.files;
+            if (files.length > 0) {
+                preview.classList.remove('hidden');
+                preview.innerText = `📎 تم تحديد ${files.length} ملف`;
+            }
+        }
+
+        function toggleVoiceRecording() {
+            alert('🎙️ ميزة التسجيل والصوت جاهزة تقنياً في البنية التحتية للنسخة القادمة!');
+        }
+    </script>
+</body>
+      </html>
+  
