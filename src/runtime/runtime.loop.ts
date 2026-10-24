@@ -3,8 +3,50 @@
 import { PlannerService } from "../planner";
 import { ExecutorService } from "../executor";
 import { OrchestratorService } from "../orchestrator/orchestrator.service";
+import { SchedulerService } from "../scheduler/scheduler.service";
 import { Task } from "../contracts/task.contract";
 import { RuntimeStateManager } from "./runtime-state.manager";
+
+function resolveTaskType(plan: any): string {
+    if (typeof plan?.type === "string" && plan.type) {
+        return plan.type;
+    }
+
+    if (typeof plan?.command?.type === "string" && plan.command.type) {
+        return plan.command.type;
+    }
+
+    const text = typeof plan?.command === "string"
+        ? plan.command
+        : JSON.stringify(plan?.command ?? "");
+    const lower = text.toLowerCase();
+
+    if (/\b(frontend|ui|dashboard|streamlit)\b/.test(lower)) {
+        return "frontend";
+    }
+
+    if (/\b(backend|api|server|nest)\b/.test(lower)) {
+        return "backend";
+    }
+
+    if (/\b(database|postgres|prisma|schema)\b/.test(lower)) {
+        return "database";
+    }
+
+    if (/\b(devops|docker|deploy|ci)\b/.test(lower)) {
+        return "devops";
+    }
+
+    if (/\b(ai|llm|brain)\b/.test(lower)) {
+        return "ai";
+    }
+
+    if (/\b(architect|architecture|project)\b/.test(lower)) {
+        return "architect";
+    }
+
+    return "project";
+}
 
 @Injectable()
 export class RuntimeLoop {
@@ -16,7 +58,8 @@ export class RuntimeLoop {
         private readonly planner: PlannerService,
         private readonly orchestrator: OrchestratorService,
         private readonly executor: ExecutorService,
-        private readonly state: RuntimeStateManager
+        private readonly state: RuntimeStateManager,
+        private readonly scheduler: SchedulerService
     ) {}
 
     isRunning() {
@@ -36,7 +79,12 @@ export class RuntimeLoop {
 
         while (this.running) {
 
-            await this.tick();
+            try {
+                await this.tick();
+            } catch {
+                // A single failed tick must not stop the runtime loop.
+            }
+
             await new Promise(resolve => setTimeout(resolve, 500));
 
         }
@@ -49,8 +97,31 @@ export class RuntimeLoop {
 
     async tick() {
 
-        if (!this.running || this.state.isPaused()) {
+        if (this.state.isPaused()) {
             return null;
+        }
+
+        const job = this.scheduler.dequeueReady();
+
+        if (job) {
+            const plan = job.plan ?? this.planner.plan(job.command);
+
+            try {
+                const result = await this.processPlan(plan);
+
+                if (result?.status === "FAILED") {
+                    this.scheduler.markFailed(job.id, result.error);
+                } else if (result?.status === "CANCELLED") {
+                    this.scheduler.cancel(job.id);
+                } else {
+                    this.scheduler.markDone(job.id);
+                }
+
+                return result;
+            } catch (error) {
+                this.scheduler.markFailed(job.id, error);
+                throw error;
+            }
         }
 
         const plan = await this.planner.next();
@@ -80,7 +151,7 @@ export class RuntimeLoop {
 
             const task: Task = {
                 id: plan?.id ?? operation.id,
-                type: "project",
+                type: resolveTaskType(plan),
                 payload: plan
             };
 

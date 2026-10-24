@@ -29,6 +29,10 @@ describe('RuntimeService', () => {
     expect(snapshot.running).toBe(true);
   });
 
+  it('returns null instead of throwing when cancelling an unknown id', () => {
+    expect(service.cancel('missing-id')).toBeNull();
+  });
+
   it('starts the loop on init and stops it on destroy', async () => {
     await service.onModuleInit();
     service.onModuleDestroy();

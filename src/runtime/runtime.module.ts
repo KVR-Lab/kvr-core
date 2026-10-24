@@ -13,6 +13,7 @@ import { MemoryModule } from "../memory/memory.module";
 import { AiModule } from "../ai/ai.module";
 import { BrainModule } from "../brain/brain.module";
 import { OrchestratorModule } from "../orchestrator/orchestrator.module";
+import { SchedulerModule } from "../scheduler/scheduler.module";
 
 @Module({
     imports: [
@@ -21,7 +22,8 @@ import { OrchestratorModule } from "../orchestrator/orchestrator.module";
         MemoryModule,
         AiModule,
         BrainModule,
-        OrchestratorModule
+        OrchestratorModule,
+        SchedulerModule
     ],
     controllers: [
         RuntimeController
