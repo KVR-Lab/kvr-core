@@ -5,3 +5,10 @@ data/
 .env
 node_modules/
 .agents/
+.nx/cache
+.nx/workspace-data
+.nx/installation
+.nx/nx-tmp
+.nx/dev
+tmp/
+docs/architecture/static/

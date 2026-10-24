@@ -1,0 +1,562 @@
+{
+  "graph": {
+    "nodes": {
+      "kvr-desktop": {
+        "name": "kvr-desktop",
+        "type": "app",
+        "data": {
+          "root": "apps/kvr-desktop",
+          "name": "kvr-desktop",
+          "tags": [
+            "npm:private",
+            "type:app",
+            "scope:desktop"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "dev",
+                "build",
+                "dist"
+              ]
+            },
+            "js": {
+              "packageName": "kvr-desktop",
+              "packageVersion": "1.0.0",
+              "packageMain": "main.js",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "targets": {
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "electron .",
+                "runCommand": "pnpm run dev"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "continuous": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "electron-builder",
+                "runCommand": "pnpm run build"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "cache": true
+            },
+            "dist": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dist"
+              },
+              "metadata": {
+                "scriptContent": "electron-builder --win",
+                "runCommand": "pnpm run dist"
+              },
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/kvr-desktop",
+          "implicitDependencies": [
+            "kvr-web"
+          ]
+        }
+      },
+      "kvr": {
+        "name": "kvr",
+        "type": "lib",
+        "data": {
+          "root": "packages/kvr",
+          "name": "kvr",
+          "tags": [
+            "npm:private",
+            "type:lib",
+            "scope:core"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build"
+              ]
+            },
+            "description": "KVR-Core platform library — kernel, runtime, and operating-system modules",
+            "js": {
+              "packageName": "@kvr/core",
+              "packageVersion": "0.0.1",
+              "packageMain": "src/index.js",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "targets": {
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "node -e \"require('fs').accessSync('src/index.js')\"",
+                "runCommand": "pnpm run build"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "cache": true
+            }
+          },
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "packages/kvr/src",
+          "implicitDependencies": []
+        }
+      },
+      "kvr-web": {
+        "name": "kvr-web",
+        "type": "app",
+        "data": {
+          "root": "apps/kvr-web",
+          "name": "kvr-web",
+          "tags": [
+            "npm:private",
+            "type:app",
+            "scope:web"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "dev",
+                "build",
+                "start",
+                "lint"
+              ]
+            },
+            "js": {
+              "packageName": "kvr-web",
+              "packageVersion": "0.1.0",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "targets": {
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "next dev",
+                "runCommand": "pnpm run dev"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "continuous": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "next build",
+                "runCommand": "pnpm run build"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "cache": true
+            },
+            "start": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start"
+              },
+              "metadata": {
+                "scriptContent": "next start",
+                "runCommand": "pnpm run start"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "lint"
+              },
+              "metadata": {
+                "scriptContent": "eslint",
+                "runCommand": "pnpm run lint"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true
+            }
+          },
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/kvr-web",
+          "implicitDependencies": [
+            "kvr-core"
+          ]
+        }
+      },
+      "kvr-core": {
+        "name": "kvr-core",
+        "type": "app",
+        "data": {
+          "root": ".",
+          "name": "kvr-core",
+          "tags": [
+            "npm:private",
+            "type:app",
+            "scope:api"
+          ],
+          "implicitDependencies": [
+            "kvr"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "format",
+                "start",
+                "start:dev",
+                "start:debug",
+                "start:prod",
+                "lint",
+                "test",
+                "test:watch",
+                "test:cov",
+                "test:debug",
+                "test:e2e",
+                "dashboard",
+                "electron",
+                "desktop",
+                "graph",
+                "graph:json",
+                "graph:html",
+                "nx:projects",
+                "graph:verify"
+              ]
+            },
+            "description": "",
+            "js": {
+              "packageName": "kvr-core",
+              "packageVersion": "0.0.1",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "targets": {
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "nest build",
+                "runCommand": "pnpm run build"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "cache": true
+            },
+            "format": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "format"
+              },
+              "metadata": {
+                "scriptContent": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+                "runCommand": "pnpm run format"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "start": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start"
+              },
+              "metadata": {
+                "scriptContent": "nest start",
+                "runCommand": "pnpm run start"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "start:dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start:dev"
+              },
+              "metadata": {
+                "scriptContent": "nest start --watch",
+                "runCommand": "pnpm run start:dev"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "start:debug": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start:debug"
+              },
+              "metadata": {
+                "scriptContent": "nest start --debug --watch",
+                "runCommand": "pnpm run start:debug"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "start:prod": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start:prod"
+              },
+              "metadata": {
+                "scriptContent": "node dist/main",
+                "runCommand": "pnpm run start:prod"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "lint"
+              },
+              "metadata": {
+                "scriptContent": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+                "runCommand": "pnpm run lint"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "jest",
+                "runCommand": "pnpm run test"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "inputs": [
+                "default",
+                "^production"
+              ],
+              "cache": true
+            },
+            "test:watch": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:watch"
+              },
+              "metadata": {
+                "scriptContent": "jest --watch",
+                "runCommand": "pnpm run test:watch"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:cov": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:cov"
+              },
+              "metadata": {
+                "scriptContent": "jest --coverage",
+                "runCommand": "pnpm run test:cov"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:debug": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:debug"
+              },
+              "metadata": {
+                "scriptContent": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+                "runCommand": "pnpm run test:debug"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:e2e": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:e2e"
+              },
+              "metadata": {
+                "scriptContent": "jest --config ./test/jest-e2e.json",
+                "runCommand": "pnpm run test:e2e"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "dashboard": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dashboard"
+              },
+              "metadata": {
+                "scriptContent": "cd apps/kvr-web && pnpm dev",
+                "runCommand": "pnpm run dashboard"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "electron": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "electron"
+              },
+              "metadata": {
+                "scriptContent": "wait-on http://localhost:3000 && electron electron/main.js",
+                "runCommand": "pnpm run electron"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "desktop": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "desktop"
+              },
+              "metadata": {
+                "scriptContent": "concurrently -k \"pnpm dashboard\" \"pnpm electron\"",
+                "runCommand": "pnpm run desktop"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "graph": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "graph"
+              },
+              "metadata": {
+                "scriptContent": "nx graph",
+                "runCommand": "pnpm run graph"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "graph:json": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "graph:json"
+              },
+              "metadata": {
+                "scriptContent": "nx graph --file=docs/architecture/project-graph.json",
+                "runCommand": "pnpm run graph:json"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "graph:html": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "graph:html"
+              },
+              "metadata": {
+                "scriptContent": "nx graph --file=tmp/project-graph.html",
+                "runCommand": "pnpm run graph:html"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "nx:projects": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "nx:projects"
+              },
+              "metadata": {
+                "scriptContent": "nx show projects",
+                "runCommand": "pnpm run nx:projects"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "graph:verify": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "graph:verify"
+              },
+              "metadata": {
+                "scriptContent": "node scripts/verify-nx-graph.mjs",
+                "runCommand": "pnpm run graph:verify"
+              },
+              "configurations": {},
+              "parallelism": true
+            }
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "kvr-desktop": [
+        {
+          "source": "kvr-desktop",
+          "target": "kvr-web",
+          "type": "implicit"
+        }
+      ],
+      "kvr": [],
+      "kvr-web": [
+        {
+          "source": "kvr-web",
+          "target": "kvr-core",
+          "type": "implicit"
+        }
+      ],
+      "kvr-core": [
+        {
+          "source": "kvr-core",
+          "target": "kvr",
+          "type": "implicit"
+        }
+      ]
+    }
+  }
+}

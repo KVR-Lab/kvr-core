@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KVR Nx Project Graph</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f1419;
+        --panel: #1a2332;
+        --text: #e8eef7;
+        --muted: #9aa8b8;
+        --accent: #6ea8fe;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      header {
+        padding: 1.25rem 1.5rem 0.5rem;
+      }
+      h1 { margin: 0 0 0.35rem; font-size: 1.35rem; }
+      p { margin: 0; color: var(--muted); }
+      main {
+        padding: 1rem 1.5rem 2rem;
+      }
+      .panel {
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+      a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>KVR Nx Project Graph</h1>
+      <p>
+        Static view of workspace projects. Run <code>pnpm graph</code> for the
+        interactive Nx viewer.
+      </p>
+    </header>
+    <main>
+      <div class="panel">
+        <pre class="mermaid">
+flowchart LR
+  kvr-desktop["kvr-desktop&lt;br/&gt;Electron"] --> kvr-web["kvr-web&lt;br/&gt;Next.js"]
+  kvr-web --> kvr-core["kvr-core&lt;br/&gt;NestJS API"]
+  kvr-core --> kvr["kvr&lt;br/&gt;@kvr/core"]
+        </pre>
+      </div>
+    </main>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "dark" });
+    </script>
+  </body>
+</html>
