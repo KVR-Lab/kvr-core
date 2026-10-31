@@ -1,0 +1,152 @@
+name: K.V.R Sovereign Genesis Auto-Builder
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-kvr-lab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate K.V.R Architecture & Files
+        run: |
+          # التوقف إذا كانت النواة مبنية مسبقاً لمنع التكرار
+          if [ -f "packages/green-library/theme.ts" ]; then
+            echo "K.V.R Core is already initialized."
+            exit 0
+          fi
+
+          # 1. إنشاء هيكل المجلدات السيادي
+          mkdir -p packages/green-library
+          mkdir -p services/kvr-engine
+          mkdir -p apps/kvr-web
+          mkdir -p apps/kvr-api
+
+          # 2. كتابة ملف package.json المركزي
+          cat << 'EOF' > package.json
+          {
+            "name": "nail-golden-kvrat-core",
+            "version": "1.0.0",
+            "private": true,
+            "description": "Sovereign Architecture for Nail Golden & KVRAT.ai - B2B & B2C Finished Products Platform",
+            "workspaces": [
+              "apps/*",
+              "packages/*"
+            ],
+            "scripts": {
+              "build": "npm run build --workspaces --if-present",
+              "dev:web": "npm --workspace=apps/kvr-web run dev",
+              "dev:api": "npm --workspace=apps/kvr-api run start:dev"
+            },
+            "author": "K.V.R Executive Engine",
+            "license": "UNLICENSED"
+          }
+          EOF
+
+          # 3. كتابة المكتبة الخضراء المركزية (#00E676)
+          cat << 'EOF' > packages/green-library/theme.ts
+          export const KVRTheme = {
+            brand: "Nail Golden & KVRAT.ai",
+            direction: "rtl",
+            colors: {
+              background: {
+                primary: "#FFFFFF",
+                surface: "#F8F9FA",
+                dark: "#121212"
+              },
+              sovereign: {
+                green: "#00E676",
+                gold: "#D4AF37",
+                textPrimary: "#121212",
+                textSecondary: "#5F6368"
+              }
+            },
+            typography: {
+              fontFamily: "'Cairo', 'Inter', sans-serif"
+            }
+          } as const;
+          EOF
+
+          # 4. كتابة محرك K.V.R الذكي ووكيل النمو (FastAPI)
+          cat << 'EOF' > services/kvr-engine/requirements.txt
+          fastapi>=0.110.0
+          pydantic>=2.6.0
+          uvicorn>=0.27.0
+          EOF
+
+          cat << 'EOF' > services/kvr-engine/main.py
+          from fastapi import FastAPI
+          from pydantic import BaseModel
+          from typing import Literal
+
+          app = FastAPI(
+              title="K.V.R Sovereign Engine - Nail Golden & KVRAT.ai",
+              description="محرك التنبؤ الذكي بالطلب وإدارة النمو لقطاعي B2B و B2C للمنتجات النهائية",
+              version="1.0.0"
+          )
+
+          class ProductDemandRequest(BaseModel):
+              sku: str
+              product_name: str
+              channel: Literal["B2B", "B2C"]
+              current_stock: int
+              daily_sales_velocity: float
+              ad_spend: float
+              generated_revenue: float
+
+          @app.get("/health")
+          def system_status():
+              return {
+                  "entity": "K.V.R",
+                  "organization": "Nail Golden & KVRAT.ai",
+                  "scope": "B2B & B2C Finished Products",
+                  "status": "ULTRA_EXECUTION_ACTIVE",
+                  "theme_core": "#00E676"
+              }
+
+          @app.post("/api/v1/growth-agent/analyze")
+          def analyze_growth_and_demand(data: ProductDemandRequest):
+              roas = round(data.generated_revenue / data.ad_spend, 2) if data.ad_spend > 0 else 0.0
+              days_remaining = int(data.current_stock / data.daily_sales_velocity) if data.daily_sales_velocity > 0 else 999
+              
+              action = "SCALE_CAMPAIGN" if roas >= 3.5 and days_remaining > 14 else "OPTIMIZE_FUNNEL"
+              if days_remaining <= 7:
+                  action = "URGENT_RESTOCK_FINISHED_GOODS"
+
+              return {
+                  "sku": data.sku,
+                  "channel": data.channel,
+                  "metrics": {
+                      "roas": roas,
+                      "stock_coverage_days": days_remaining
+                  },
+                  "kvr_decision": action
+              }
+          EOF
+
+          # 5. كتابة التوثيق التنفيذي للمختبر
+          cat << 'EOF' > README.md
+          # Nail Golden & KVRAT.ai — Sovereign Core (K.V.R)
+          
+          المنظومة المركزية للتجارة الإلكترونية متعددة التجار (B2B & B2C للمنتجات النهائية)، التنبؤ الذكي بالطلب، وإدارة سلاسل الإمداد الذكية.
+          
+          ## الهوية البصرية
+          * **المكتبة الخضراء المركزية:** `#00E676`
+          * **الذهبي المؤسسي:** `#D4AF37`
+          * **الداكن القياسي:** `#121212`
+          * **الخلفية القياسية:** `#FFFFFF`
+          EOF
+
+      - name: Commit and Push K.V.R Core to Repository
+        run: |
+          git config --global user.name "K.V.R Sovereign Engine"
+          git config --global user.email "kvr-engine@kvrat.ai"
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "feat(core): initialize K.V.R sovereign architecture and green library" && git push)
