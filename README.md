@@ -1,24 +1,9 @@
-﻿# 🛸 KVRAT.ai — Core Autonomous Control & Dynamic Pricing Platform
+# Nail Golden & KVRAT.ai — Sovereign Core (K.V.R)
 
-منصة ذكية لإدارة التغليف والتسعير الديناميكي المؤتمتة باقتدار، مدعومة بنظام حوكمة أمان متعدد الطبقات وذاكرة موحدة.
+المنظومة المركزية للتجارة الإلكترونية متعددة التجار (B2B & B2C للمنتجات النهائية)، التنبؤ الذكي بالطلب، وإدارة سلاسل الإمداد الذكية.
 
-## 🏗️ البنية الهندسية (Architecture)
-- FastAPI Core API: المحرك الرئيسي للتسعير ومعالجة الطلبات.
-- Streamlit Dashboard: لوحة المراقبة والتحكم الميدانية.
-- Governance Agent: فحص معايير السلامة والحدود التشغيلية.
-- Dynamic Pricing Engine: حساب التكاليف والرسوم الديناميكية.
-- Unified Data Fabric: ذاكرة سياقية موحدة للقرارات.
-- CI/CD & Docker: أتمتة الاختبارات والحاويات الجاهزة للنشر السحابي.
-
-## 💻 التشغيل السريع محلياً (Local Setup)
-1. تشغيل الـ API:
-   python -m uvicorn src.api_server:app --port 8000
-
-2. تشغيل لوحة التحكم:
-   python -m streamlit run dashboard.py
-
-## 🐳 التشغيل باستخدام Docker
-   docker-compose up --build
-
-## 🧪 تشغيل الاختبارات الأوتوماتيكية
-   python -m pytest tests/test_pipeline.py
+## الهوية البصرية
+* **المكتبة الخضراء المركزية:** `#00E676`
+* **الذهبي المؤسسي:** `#D4AF37`
+* **الداكن القياسي:** `#121212`
+* **الخلفية القياسية:** `#FFFFFF`

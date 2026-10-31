@@ -1,87 +1,17 @@
 {
-  "name": "kvr-core",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "nail-golden-kvrat-core",
+  "version": "1.0.0",
   "private": true,
-  "license": "UNLICENSED",
+  "description": "Sovereign Architecture for Nail Golden & KVRAT.ai - B2B & B2C Finished Products Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "dashboard": "cd apps/kvr-web && pnpm dev",
-    "electron": "wait-on http://localhost:3000 && electron electron/main.js",
-    "desktop": "concurrently -k \"pnpm dashboard\" \"pnpm electron\""
+    "build": "npm run build --workspaces --if-present",
+    "dev:web": "npm --workspace=apps/kvr-web run dev",
+    "dev:api": "npm --workspace=apps/kvr-api run start:dev"
   },
-  "dependencies": {
-    "@google/genai": "^1.19.0",
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/core": "^11.0.1",
-    "@nestjs/mapped-types": "*",
-    "@nestjs/platform-express": "^11.0.1",
-    "@prisma/client": "^7.8.0",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.15.1",
-    "fs-extra": "^11.3.6",
-    "openai": "^6.48.0",
-    "prisma": "^7.8.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "yaml": "^2.9.0"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.18.0",
-    "@nestjs/cli": "^11.0.0",
-    "@nestjs/schematics": "^11.0.0",
-    "@nestjs/testing": "^11.0.1",
-    "@types/express": "^5.0.0",
-    "@types/fs-extra": "^11.0.4",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.0",
-    "@types/supertest": "^7.0.0",
-    "concurrently": "^9.0.1",
-    "eslint": "^9.18.0",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.2",
-    "globals": "^17.0.0",
-    "jest": "^30.0.0",
-    "prettier": "^3.4.2",
-    "source-map-support": "^0.5.21",
-    "supertest": "^7.0.0",
-    "ts-jest": "^29.2.5",
-    "ts-loader": "^9.5.2",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0",
-    "wait-on": "^8.0.1"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
-  },
-  "packageManager": "pnpm@10.34.4+sha512.8768be55200ae3f2226b6527fcca2687e14bc4e5f12d7721a0f25da3df47915177058648db4177baf348120fa0ba2752d8d8d93f6beaf1fe64ae18da8de961af"
+  "author": "K.V.R Executive Engine",
+  "license": "UNLICENSED"
 }
