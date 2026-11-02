@@ -14,5 +14,5 @@ export declare class LifecycleService {
         scheduler: string;
         time: Date;
     };
-    startTask(task: any): NodeJS.Timeout | null;
+    startTask(task: any): import("../scheduler").ScheduledJob | NodeJS.Timeout | null;
 }

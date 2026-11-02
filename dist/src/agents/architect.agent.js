@@ -4,7 +4,7 @@ exports.ArchitectAgent = void 0;
 class ArchitectAgent {
     name = "architect";
     canHandle(task) {
-        return task.type == "architect";
+        return task.type == "architect" || task.type == "project";
     }
     async execute(task) {
         return {

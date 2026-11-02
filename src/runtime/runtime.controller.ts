@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { RuntimeService } from './runtime.service';
 
 @Controller('runtime')
@@ -20,7 +20,13 @@ export class RuntimeController {
 
     @Get('operations/:id')
     operation(@Param('id') id: string) {
-        return this.service.operation(id);
+        const operation = this.service.operation(id);
+
+        if (!operation) {
+            throw new NotFoundException(`Unknown runtime operation: ${id}`);
+        }
+
+        return operation;
     }
 
     @Post('pause')
@@ -40,7 +46,13 @@ export class RuntimeController {
 
     @Post('cancel/:id')
     cancel(@Param('id') id: string) {
-        return this.service.cancel(id);
+        const operation = this.service.cancel(id);
+
+        if (!operation) {
+            throw new NotFoundException(`Unknown runtime operation: ${id}`);
+        }
+
+        return operation;
     }
 
 }

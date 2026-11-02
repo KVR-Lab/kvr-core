@@ -41,10 +41,24 @@ let ExecutorService = class ExecutorService {
                         });
                         break;
                     case 'analyze':
+                        results.push({
+                            step: step.action,
+                            status: 'done',
+                            analysis: {
+                                planId: plan.id ?? null,
+                                command: plan.command ?? null,
+                                stepCount: plan.steps?.length ?? 0,
+                            },
+                        });
+                        break;
                     case 'execute':
                         results.push({
                             step: step.action,
                             status: 'done',
+                            executed: {
+                                planId: plan.id ?? null,
+                                action: step.action,
+                            },
                         });
                         break;
                     default:

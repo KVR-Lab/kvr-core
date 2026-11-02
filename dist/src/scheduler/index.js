@@ -17,4 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./scheduler.module"), exports);
 __exportStar(require("./scheduler.service"), exports);
 __exportStar(require("./task.queue"), exports);
+__exportStar(require("./scheduled-job"), exports);
+__exportStar(require("./scheduler.controller"), exports);
 //# sourceMappingURL=index.js.map

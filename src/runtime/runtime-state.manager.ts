@@ -13,7 +13,7 @@ import {
 const ALLOWED_TRANSITIONS: Record<RuntimeStatus, RuntimeStatus[]> = {
   WAITING: ['RUNNING', 'CANCELLED'],
   RUNNING: ['PAUSED', 'COMPLETED', 'FAILED', 'CANCELLED'],
-  PAUSED: ['RUNNING', 'CANCELLED'],
+  PAUSED: ['RUNNING', 'CANCELLED', 'COMPLETED', 'FAILED'],
   COMPLETED: [],
   FAILED: [],
   CANCELLED: [],

@@ -19,6 +19,7 @@ const memory_module_1 = require("../memory/memory.module");
 const ai_module_1 = require("../ai/ai.module");
 const brain_module_1 = require("../brain/brain.module");
 const orchestrator_module_1 = require("../orchestrator/orchestrator.module");
+const scheduler_module_1 = require("../scheduler/scheduler.module");
 let RuntimeModule = class RuntimeModule {
 };
 exports.RuntimeModule = RuntimeModule;
@@ -30,7 +31,8 @@ exports.RuntimeModule = RuntimeModule = __decorate([
             memory_module_1.MemoryModule,
             ai_module_1.AiModule,
             brain_module_1.BrainModule,
-            orchestrator_module_1.OrchestratorModule
+            orchestrator_module_1.OrchestratorModule,
+            scheduler_module_1.SchedulerModule
         ],
         controllers: [
             runtime_controller_1.RuntimeController

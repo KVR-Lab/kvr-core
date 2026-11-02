@@ -11,21 +11,26 @@ const common_1 = require("@nestjs/common");
 const agent_module_1 = require("../agent/agent.module");
 const task_queue_1 = require("./task.queue");
 const scheduler_service_1 = require("./scheduler.service");
+const scheduler_controller_1 = require("./scheduler.controller");
 let SchedulerModule = class SchedulerModule {
 };
 exports.SchedulerModule = SchedulerModule;
 exports.SchedulerModule = SchedulerModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            agent_module_1.AgentModule
+            agent_module_1.AgentModule,
+        ],
+        controllers: [
+            scheduler_controller_1.SchedulerController,
         ],
         providers: [
             task_queue_1.TaskQueue,
-            scheduler_service_1.SchedulerService
+            scheduler_service_1.SchedulerService,
         ],
         exports: [
-            scheduler_service_1.SchedulerService
-        ]
+            scheduler_service_1.SchedulerService,
+            task_queue_1.TaskQueue,
+        ],
     })
 ], SchedulerModule);
 //# sourceMappingURL=scheduler.module.js.map

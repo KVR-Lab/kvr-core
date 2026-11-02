@@ -1,15 +1,17 @@
 import { PlannerService } from "../planner";
 import { ExecutorService } from "../executor";
 import { OrchestratorService } from "../orchestrator/orchestrator.service";
+import { SchedulerService } from "../scheduler/scheduler.service";
 import { RuntimeStateManager } from "./runtime-state.manager";
 export declare class RuntimeLoop {
     private readonly planner;
     private readonly orchestrator;
     private readonly executor;
     private readonly state;
+    private readonly scheduler;
     private running;
     private starting;
-    constructor(planner: PlannerService, orchestrator: OrchestratorService, executor: ExecutorService, state: RuntimeStateManager);
+    constructor(planner: PlannerService, orchestrator: OrchestratorService, executor: ExecutorService, state: RuntimeStateManager, scheduler: SchedulerService);
     isRunning(): boolean;
     start(): Promise<void>;
     stop(): void;
