@@ -12,3 +12,9 @@
 ## 3. Business Logic Rules
 - **Strict Scope**: B2B and B2C finished smart products and platforms ONLY. Never generate or suggest code related to raw packaging materials or non-finished goods.
 - **Quality & Performance**: Enforce high performance (Web Vitals > 90 via Speed Insights), strict type safety, modular architecture, and comprehensive error handling.
+pwd
+git status --short --branch
+git branch --show-current
+git rev-parse HEAD
+git diff --name-only
+git diff --cached --name-only
